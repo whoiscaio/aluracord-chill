@@ -32,4 +32,4 @@ function GlobalStyle() {
   );
 }
 
-export { GlobalStyle };
+export default GlobalStyle;

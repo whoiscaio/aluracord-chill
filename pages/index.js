@@ -1,7 +1,7 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 
 import appConfig from '../config.json';
-import { GlobalStyle } from './GlobalStyle';
+import GlobalStyle from './GlobalStyle';
 import Title from './Title';
 
 function HomePage() {
