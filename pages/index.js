@@ -5,7 +5,7 @@ import { GlobalStyle } from './GlobalStyle';
 import Title from './Title';
 
 function HomePage() {
-  const username = 'cayo';
+  const username = 'whoiscaio';
 
   return (
     <>
@@ -13,8 +13,7 @@ function HomePage() {
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+          backgroundImage: 'url(https://wallpaperaccess.com/full/1959300.jpg)',
           backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         }}
       >
@@ -52,7 +51,7 @@ function HomePage() {
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
                   mainColor: appConfig.theme.colors.neutrals[900],
-                  mainColorHighlight: appConfig.theme.colors.primary[500],
+                  mainColorHighlight: appConfig.theme.colors.primary[100],
                   backgroundColor: appConfig.theme.colors.neutrals[800],
                 },
               }}
@@ -63,7 +62,7 @@ function HomePage() {
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
+                mainColor: appConfig.theme.colors.primary[100],
                 mainColorLight: appConfig.theme.colors.primary[400],
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
