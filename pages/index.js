@@ -1,6 +1,6 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import appConfig from '../config.json';
 import Title from './Title';
@@ -8,6 +8,8 @@ import Title from './Title';
 function HomePage() {
   const [username, setUser] = useState('whoiscaio');
   const router = useRouter();
+
+  let isUsernameGreaterThanTwo = username.length > 2;
 
   function handleInputChange(e) {
     setUser(e.target.value);
@@ -72,6 +74,7 @@ function HomePage() {
               type='submit'
               label='Entrar'
               fullWidth
+              disabled={!isUsernameGreaterThanTwo}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
                 mainColor: appConfig.theme.colors.primary[100],
@@ -99,13 +102,17 @@ function HomePage() {
               minHeight: '240px',
             }}
           >
-            <Image
-              styleSheet={{
-                borderRadius: '50%',
-                marginBottom: '16px',
-              }}
-              src={`https://github.com/${username}.png`}
-            />
+            {
+              isUsernameGreaterThanTwo && (
+                <Image
+                  styleSheet={{
+                    borderRadius: '50%',
+                    marginBottom: '16px',
+                  }}
+                  src={`https://github.com/${username}.png`}
+                />
+              )
+            }
             <Text
               variant="body4"
               styleSheet={{
