@@ -1,11 +1,20 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { useState } from 'react';
 
 import appConfig from '../config.json';
 import GlobalStyle from './GlobalStyle';
 import Title from './Title';
 
 function HomePage() {
-  const username = 'whoiscaio';
+  const [username, setUser] = useState('whoiscaio');
+
+  function handleInputChange(e) {
+    setUser(e.target.value);
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+  }
 
   return (
     <>
@@ -35,6 +44,7 @@ function HomePage() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={handleFormSubmit}
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -46,6 +56,8 @@ function HomePage() {
             </Text>
 
             <TextField
+              value={username}
+              onChange={handleInputChange}
               fullWidth
               textFieldColors={{
                 neutral: {
