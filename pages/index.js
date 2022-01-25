@@ -1,12 +1,13 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import appConfig from '../config.json';
-import GlobalStyle from './GlobalStyle';
 import Title from './Title';
 
 function HomePage() {
   const [username, setUser] = useState('whoiscaio');
+  const router = useRouter();
 
   function handleInputChange(e) {
     setUser(e.target.value);
@@ -18,7 +19,6 @@ function HomePage() {
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
