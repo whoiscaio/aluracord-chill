@@ -1,10 +1,12 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import appConfig from '../config.json';
 
 export default function ChatPage() {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+
+  const inputRef = useRef();
 
   function handleInputChange(e) {
     setMessage(e.target.value);
@@ -23,6 +25,7 @@ export default function ChatPage() {
     ]);
 
     setMessage('');
+    inputRef.current?.focus();
   }
 
   function handleKeyPress(e) {
@@ -37,6 +40,12 @@ export default function ChatPage() {
 
   function handleDeleteMessage(id) {
     setMessageList((prevState) => prevState.filter((message) => message.id !== id));
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+
+    handleCreateMessage(message);
   }
 
   return (
@@ -87,6 +96,7 @@ export default function ChatPage() {
             }}
           >
             <TextField
+              ref={inputRef}
               value={message}
               onChange={handleInputChange}
               onKeyPress={handleKeyPress}
@@ -103,6 +113,21 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
+            <Box 
+              styleSheet={{
+                height: 'calc(100% - 8px)',
+                marginBottom: '8px',
+              }}
+            >
+              <Button
+                type="submit"
+                onClick={handleFormSubmit}
+                label="Enviar"
+                styleSheet={{
+                  height: '100%',
+                }}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -191,16 +216,16 @@ function MessageList({ messages, deleteMessage }) {
               </Box>
               <Box>
                 <Button
-                 label="X"
-                 onClick={() => deleteMessage(message.id)}
-                 styleSheet={{
-                   background: 'none',
-                   padding: '5px',
-                   color: appConfig.theme.colors.utils["000"],
-                 }}
-                 buttonColors={{
-                   contrastColor: appConfig.theme.colors.neutrals["000"],
-                 }}
+                  label="X"
+                  onClick={() => deleteMessage(message.id)}
+                  styleSheet={{
+                    background: 'none',
+                    padding: '5px',
+                    color: appConfig.theme.colors.utils["000"],
+                  }}
+                  buttonColors={{
+                    contrastColor: appConfig.theme.colors.neutrals["000"],
+                  }}
                 />
               </Box>
             </Box>
