@@ -53,7 +53,7 @@ export default function ChatPage() {
       styleSheet={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         backgroundColor: appConfig.theme.colors.primary[500],
-        backgroundImage: `url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)`,
+        backgroundImage: `url(https://wallpaperaccess.com/full/1959300.jpg)`,
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         color: appConfig.theme.colors.neutrals['000']
       }}
@@ -65,7 +65,7 @@ export default function ChatPage() {
           flex: 1,
           boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
           borderRadius: '5px',
-          backgroundColor: appConfig.theme.colors.neutrals[700],
+          backgroundColor: `${appConfig.theme.colors.neutrals[800]}66`,
           height: '100%',
           maxWidth: '95%',
           maxHeight: '95vh',
@@ -79,7 +79,6 @@ export default function ChatPage() {
             display: 'flex',
             flex: 1,
             height: '80%',
-            backgroundColor: appConfig.theme.colors.neutrals[600],
             flexDirection: 'column',
             borderRadius: '5px',
             padding: '16px',
@@ -113,7 +112,7 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
-            <Box 
+            <Box
               styleSheet={{
                 height: 'calc(100% - 8px)',
                 marginBottom: '8px',
@@ -125,6 +124,15 @@ export default function ChatPage() {
                 label="Enviar"
                 styleSheet={{
                   height: '100%',
+                  backgroundColor: appConfig.theme.colors.primary[100],
+                  hover: {
+                    backgroundColor: '#fff',
+                    color: appConfig.theme.colors.primary[100],
+                  }
+                }}
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals[100],
+                  mainColor: appConfig.theme.colors.primary[100],
                 }}
               />
             </Box>
@@ -138,15 +146,31 @@ export default function ChatPage() {
 function Header() {
   return (
     <>
-      <Box styleSheet={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} >
+      <Box styleSheet={{
+        width: '100%',
+        marginBottom: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
         <Text variant='heading5'>
           Chat
         </Text>
         <Button
-          variant='tertiary'
-          colorVariant='neutral'
           label='Logout'
           href="/"
+          styleSheet={{
+            backgroundColor: '#fff',
+            color: appConfig.theme.colors.primary[100],
+            hover: {
+              backgroundColor: appConfig.theme.colors.primary[100],
+              color: '#fff',
+            }
+          }}
+          buttonColors={{
+            contrastColor: '#fff',
+            mainColor: appConfig.theme.colors.primary[100],
+          }}
         />
       </Box>
     </>
@@ -177,6 +201,7 @@ function MessageList({ messages, deleteMessage }) {
               borderRadius: '5px',
               padding: '6px',
               marginBottom: '12px',
+              backgroundColor: `${appConfig.theme.colors.neutrals[700]}bb`,
               hover: {
                 backgroundColor: appConfig.theme.colors.neutrals[700],
               }
@@ -221,7 +246,10 @@ function MessageList({ messages, deleteMessage }) {
                   styleSheet={{
                     background: 'none',
                     padding: '5px',
-                    color: appConfig.theme.colors.utils["000"],
+                    color: appConfig.theme.colors.primary[100],
+                    hover: {
+                      color: '#fff',
+                    }
                   }}
                   buttonColors={{
                     contrastColor: appConfig.theme.colors.neutrals["000"],
