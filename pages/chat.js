@@ -11,13 +11,13 @@ export default function ChatPage() {
   }
 
   function handleCreateMessage(message) {
-    if(message.trim() === '') return;
+    if (message.trim() === '') return;
 
     setMessageList((prevState) => [
       {
         de: 'whoiscaio',
         text: message,
-        id: prevState.length,
+        id: Math.random(),
       },
       ...prevState,
     ]);
@@ -33,6 +33,10 @@ export default function ChatPage() {
 
       handleCreateMessage(message);
     }
+  }
+
+  function handleDeleteMessage(id) {
+    setMessageList((prevState) => prevState.filter((message) => message.id !== id));
   }
 
   return (
@@ -73,7 +77,7 @@ export default function ChatPage() {
           }}
         >
 
-          <MessageList messages={messageList} />
+          <MessageList messages={messageList} deleteMessage={handleDeleteMessage} />
 
           <Box
             as="form"
@@ -124,7 +128,7 @@ function Header() {
   )
 }
 
-function MessageList({ messages }) {
+function MessageList({ messages, deleteMessage }) {
 
   return (
     <Box
@@ -155,32 +159,50 @@ function MessageList({ messages }) {
           >
             <Box
               styleSheet={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 marginBottom: '8px',
               }}
             >
-              <Image
-                styleSheet={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  display: 'inline-block',
-                  marginRight: '8px',
-                }}
-                src={`https://github.com/whoiscaio.png`}
-              />
-              <Text tag="strong">
-                {message.de}
-              </Text>
-              <Text
-                styleSheet={{
-                  fontSize: '10px',
-                  marginLeft: '8px',
-                  color: appConfig.theme.colors.neutrals[300],
-                }}
-                tag="span"
-              >
-                {(new Date().toLocaleDateString())}
-              </Text>
+              <Box>
+                <Image
+                  styleSheet={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    display: 'inline-block',
+                    marginRight: '8px',
+                  }}
+                  src={`https://github.com/whoiscaio.png`}
+                />
+                <Text tag="strong">
+                  {message.de}
+                </Text>
+                <Text
+                  styleSheet={{
+                    fontSize: '10px',
+                    marginLeft: '8px',
+                    color: appConfig.theme.colors.neutrals[300],
+                  }}
+                  tag="span"
+                >
+                  {(new Date().toLocaleDateString())}
+                </Text>
+              </Box>
+              <Box>
+                <Button
+                 label="X"
+                 onClick={() => deleteMessage(message.id)}
+                 styleSheet={{
+                   background: 'none',
+                   padding: '5px',
+                   color: appConfig.theme.colors.utils["000"],
+                 }}
+                 buttonColors={{
+                   contrastColor: appConfig.theme.colors.neutrals["000"],
+                 }}
+                />
+              </Box>
             </Box>
             {message.text}
           </Text>
