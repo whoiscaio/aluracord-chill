@@ -19,6 +19,10 @@ function HomePage() {
     e.preventDefault();
   }
 
+  function handleButtonClick() {
+    router.push('/chat');
+  }
+
   return (
     <>
       <Box
@@ -74,6 +78,7 @@ function HomePage() {
               type='submit'
               label='Entrar'
               fullWidth
+              onClick={handleButtonClick}
               disabled={!isUsernameGreaterThanTwo}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
