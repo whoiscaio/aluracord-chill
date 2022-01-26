@@ -19,7 +19,9 @@ function HomePage() {
     e.preventDefault();
   }
 
-  function handleButtonClick() {
+  function handleButtonClick(e) {
+    e.preventDefault();
+    
     router.push('/chat');
   }
 
