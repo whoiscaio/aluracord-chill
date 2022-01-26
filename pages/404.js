@@ -59,7 +59,7 @@ function NotFound() {
             >
               Fica tranquilo, vou te trazer de volta pra realidade!
             </Text>
-            <Button 
+            <Button
               type="button"
               label="É só clicar aqui!"
               onClick={handleButtonClick}
@@ -71,7 +71,7 @@ function NotFound() {
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}
             />
-            <Image 
+            <Image
               styleSheet={{
                 position: 'absolute',
                 top: '0',
