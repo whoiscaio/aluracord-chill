@@ -1,6 +1,6 @@
 import { Box } from '@skynexui/components';
 import { useContext } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import { useEffect } from 'react';
 
 import appConfig from '../../config.json';
 import { DeleteModalContext } from '../contexts/DeleteModalContext';
