@@ -37,13 +37,15 @@ export default function ChatPage() {
   useEffect(() => {
     if (!username) router.push('/');
 
+    let subscribe;
+
     (async () => {
       try {
         const req = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
 
         setMessageList(req.data);
         setLoading(false);
-        listenSupabase((newMessage) => {
+        subscribe = listenSupabase((newMessage) => {
           setMessageList((prevState) => [
             newMessage,
             ...prevState,
@@ -53,6 +55,8 @@ export default function ChatPage() {
         console.error(err);
       }
     })();
+
+    return () => subscribe?.unsubscribe();
   }, []);
 
   const inputRef = useRef();
