@@ -3,12 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import appConfig from '../config.json';
-import ButtonSendSticker from './components/ButtonSendSticker';
-import DeleteModal from './components/DeleteModal';
-import Header from './components/Header';
-import MessageList from './components/MessageList';
-import { DeleteModalContext } from './contexts/DeleteModalContext';
-import { UserContext } from './contexts/UserContext';
+import ButtonSendSticker from '../src/components/ButtonSendSticker';
+import DeleteModal from '../src/components/DeleteModal';
+import Header from '../src/components/Header';
+import MessageList from '../src/components/MessageList';
+import { DeleteModalContext } from '../src/contexts/DeleteModalContext';
+import { UserContext } from '../src/contexts/UserContext';
 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM2ODc4NiwiZXhwIjoxOTU4OTQ0Nzg2fQ.5KZfLkH07Fzw5RZH8vVteR_QxGNZgQUh2zRrj-C_dHw';
 const SUPABASE_URL = 'https://hlpiqeaibzbrdhmaysdq.supabase.co'; // API Endpoint

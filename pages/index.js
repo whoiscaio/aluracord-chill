@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
 import appConfig from '../config.json';
-import { UserContext } from './contexts/UserContext';
-import Title from './Title';
+import { UserContext } from '../src/contexts/UserContext';
+import Title from '../src/components/Title';
 
 function HomePage() {
   const { username, defineUsername } = useContext(UserContext);

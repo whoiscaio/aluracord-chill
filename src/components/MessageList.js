@@ -31,7 +31,7 @@ function MessageList({ messages, deleteMessage, loading }) {
         ><Loading /></Box>
       }
       {
-        messages.map((message) => (
+        messages && messages.map((message) => (
           <Text
             key={message.id}
             tag="li"

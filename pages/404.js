@@ -1,9 +1,9 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 
 import appConfig from '../config.json';
-import Title from './Title';
+import Title from '../src/components/Title';
 
-import chillBoredApe from './assets/images/chill-bored-ape.png';
+import chillBoredApe from '../src/assets/images/chill-bored-ape.png';
 import { useRouter } from 'next/router';
 
 function NotFound() {

@@ -1,6 +1,6 @@
-import DeleteModalProvider from './contexts/DeleteModalContext';
-import UserProvider from './contexts/UserContext';
-import GlobalStyle from './styles/GlobalStyle';
+import DeleteModalProvider from '../src/contexts/DeleteModalContext';
+import UserProvider from '../src/contexts/UserContext';
+import GlobalStyle from '../src/styles/GlobalStyle';
 
 function MyApp({ Component, pageProps }) {
 
