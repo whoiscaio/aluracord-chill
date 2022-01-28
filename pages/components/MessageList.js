@@ -80,7 +80,7 @@ function MessageList({ messages, deleteMessage, loading }) {
               <Box>
                 <Button
                   label="X"
-                  onClick={() => deleteMessage(message.id)}
+                  onClick={() => deleteMessage(message.id, message.from)}
                   styleSheet={{
                     background: 'none',
                     padding: '5px',

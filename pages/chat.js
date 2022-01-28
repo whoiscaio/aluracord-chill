@@ -75,7 +75,12 @@ export default function ChatPage() {
     handleCreateMessage(message);
   }
 
-  function handleDeleteMessage(id) {
+  function handleDeleteMessage(id, messageSender) {
+    if(messageSender !== username) {
+      alert('Você não pode apagar uma mensagem que não é sua!');
+      return;
+    }
+
     setMessageList((prevState) => prevState.filter((message) => message.id !== id));
   }
 
