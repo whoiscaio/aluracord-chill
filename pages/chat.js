@@ -43,12 +43,13 @@ export default function ChatPage() {
     setMessage(e.target.value);
   }
 
-  function handleCreateMessage(message) {
+  function handleCreateMessage(message, isSticker) {
     if (message.trim() === '') return;
 
     const newMessage = {
       from: username,
       text: message,
+      sticker: isSticker || false,
     }
 
     supabaseClient.from('messages').insert([
@@ -65,13 +66,13 @@ export default function ChatPage() {
   }
 
   function handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
+    if (e.key !== 'Enter') return;
+    
+    e.preventDefault();
 
-      console.log('enter');
+    console.log('enter');
 
-      handleCreateMessage(message);
-    }
+    handleCreateMessage(message);
   }
 
   function handleDeleteMessage(id) {
@@ -82,6 +83,10 @@ export default function ChatPage() {
     e.preventDefault();
 
     handleCreateMessage(message);
+  }
+
+  function handleStickerClick(sticker) {
+    handleCreateMessage(sticker, true);
   }
 
   return (
@@ -154,7 +159,7 @@ export default function ChatPage() {
                 display: 'flex',
               }}
             >
-              <ButtonSendSticker />
+              <ButtonSendSticker onStickerClick={handleStickerClick} />
               <Button
                 type="submit"
                 onClick={handleFormSubmit}
