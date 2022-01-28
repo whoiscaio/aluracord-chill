@@ -25,15 +25,30 @@ export default function ChatPage() {
   const { username } = useContext(UserContext);
   const { isModalOpen, toggleModalState } = useContext(DeleteModalContext);
 
+  function listenSupabase(addNewMessage) {
+    supabaseClient
+      .from('messages')
+      .on('INSERT', (data) => {
+        addNewMessage(data.new);
+      })
+      .subscribe();
+  }
+
   useEffect(() => {
     if (!username) router.push('/');
 
     (async () => {
       try {
-        const data = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
+        const req = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
 
-        setMessageList(data.data);
+        setMessageList(req.data);
         setLoading(false);
+        listenSupabase((newMessage) => {
+          setMessageList((prevState) => [
+            newMessage,
+            ...prevState,
+          ])
+        });
       } catch (err) {
         console.error(err);
       }
@@ -57,12 +72,7 @@ export default function ChatPage() {
 
     supabaseClient.from('messages').insert([
       newMessage
-    ]).then(({ data }) => {
-      setMessageList((prevState) => [
-        data[0],
-        ...prevState,
-      ])
-    });
+    ]).then((data) => {});
 
     setMessage('');
     inputRef.current?.focus();
@@ -79,14 +89,13 @@ export default function ChatPage() {
   }
 
   function handleDeleteMessage(id, messageSender) {
-    console.log(`${messageSender} : ${username}`)
     
     if (messageSender !== username) {
       toggleModalState();
       return;
     }
 
-    setMessageList((prevState) => prevState.filter((message) => message.id !== id));
+    supabaseClient.from('messages').delete().match({ id });
   }
 
   function handleFormSubmit(e) {
