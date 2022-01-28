@@ -5,6 +5,8 @@ import Loading from './Loading';
 
 function MessageList({ messages, deleteMessage, loading }) {
 
+  console.log(messages);
+
   return (
     <Box
       tag="ul"
@@ -93,7 +95,15 @@ function MessageList({ messages, deleteMessage, loading }) {
                 />
               </Box>
             </Box>
-            {message.text}
+            {
+              message.sticker
+              ? (
+                <Image width="150" height="150" src={message.text}/>
+              )
+              : (
+                message.text
+              )
+            }
           </Text>
         ))
       }
