@@ -2,6 +2,7 @@ import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js';
 import React, { useState, useRef, useEffect } from 'react';
 import appConfig from '../config.json';
+import Loading from './components/Loading';
 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM2ODc4NiwiZXhwIjoxOTU4OTQ0Nzg2fQ.5KZfLkH07Fzw5RZH8vVteR_QxGNZgQUh2zRrj-C_dHw';
 const SUPABASE_URL = 'https://hlpiqeaibzbrdhmaysdq.supabase.co'; // API Endpoint
@@ -11,6 +12,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 export default function ChatPage() {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -18,6 +20,7 @@ export default function ChatPage() {
         const data = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
 
         setMessageList(data.data);
+        setLoading(false);
       } catch (err) {
         console.error(err);
       }
@@ -107,8 +110,7 @@ export default function ChatPage() {
             padding: '16px',
           }}
         >
-
-          <MessageList messages={messageList} deleteMessage={handleDeleteMessage} />
+          <MessageList messages={messageList} deleteMessage={handleDeleteMessage} loading={loading} />
 
           <Box
             as="form"
@@ -200,7 +202,7 @@ function Header() {
   )
 }
 
-function MessageList({ messages, deleteMessage }) {
+function MessageList({ messages, deleteMessage, loading }) {
 
   return (
     <Box
@@ -214,7 +216,17 @@ function MessageList({ messages, deleteMessage }) {
         marginBottom: '16px',
       }}
     >
-
+      {
+        loading && <Box
+          styleSheet={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        ><Loading /></Box>
+      }
       {
         messages.map((message) => (
           <Text
