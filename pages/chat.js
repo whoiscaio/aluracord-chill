@@ -1,8 +1,9 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import appConfig from '../config.json';
 import Loading from './components/Loading';
+import { UserContext } from './contexts/UserContext';
 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM2ODc4NiwiZXhwIjoxOTU4OTQ0Nzg2fQ.5KZfLkH07Fzw5RZH8vVteR_QxGNZgQUh2zRrj-C_dHw';
 const SUPABASE_URL = 'https://hlpiqeaibzbrdhmaysdq.supabase.co'; // API Endpoint
@@ -13,6 +14,8 @@ export default function ChatPage() {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { username } = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
@@ -37,8 +40,8 @@ export default function ChatPage() {
     if (message.trim() === '') return;
 
     const newMessage = {
-      from: 'whoiscaio',
-        text: message,
+      from: username,
+      text: message,
     }
 
     supabaseClient.from('messages').insert([
@@ -258,7 +261,7 @@ function MessageList({ messages, deleteMessage, loading }) {
                     display: 'inline-block',
                     marginRight: '8px',
                   }}
-                  src={`https://github.com/whoiscaio.png`}
+                  src={`https://github.com/${message.from}.png`}
                 />
                 <Text tag="strong">
                   {message.from}

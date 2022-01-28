@@ -1,13 +1,16 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import appConfig from '../config.json';
+import { UserContext } from './contexts/UserContext';
 import Title from './Title';
 
 function HomePage() {
   const [username, setUser] = useState('whoiscaio');
+
   const router = useRouter();
+  const { defineUsername } = useContext(UserContext);
 
   let isUsernameGreaterThanTwo = username.length > 2;
 
@@ -17,11 +20,8 @@ function HomePage() {
 
   function handleFormSubmit(e) {
     e.preventDefault();
-  }
 
-  function handleButtonClick(e) {
-    e.preventDefault();
-    
+    defineUsername(username);
     router.push('/chat');
   }
 
@@ -80,7 +80,6 @@ function HomePage() {
               type='submit'
               label='Entrar'
               fullWidth
-              onClick={handleButtonClick}
               disabled={!isUsernameGreaterThanTwo}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
