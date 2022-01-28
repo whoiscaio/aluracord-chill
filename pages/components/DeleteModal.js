@@ -1,11 +1,24 @@
 import { Box } from '@skynexui/components';
 import { useContext } from 'react';
+import { useEffect } from 'react/cjs/react.development';
 
 import appConfig from '../../config.json';
 import { DeleteModalContext } from '../contexts/DeleteModalContext';
 
 function DeleteModal() {
   const { toggleModalState } = useContext(DeleteModalContext);
+
+  function handleNoModalClick(e) {
+    if(e.target.id === 'modal') return;
+
+    toggleModalState();
+  }
+
+  useEffect(() => {
+    window.addEventListener('click', handleNoModalClick);
+
+    return () => window.removeEventListener('click', handleNoModalClick);
+  }, []);
 
   return (
     <>
@@ -29,7 +42,7 @@ function DeleteModal() {
           padding: '60px 80px',
           borderRadius: '12px',
         }} id="modal">
-          <button onClick={toggleModalState}>X</button>
+          <button>X</button>
           <p>Você não pode apagar mensagens dos outros!</p>
         </Box>
       </Box>

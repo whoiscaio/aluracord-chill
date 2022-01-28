@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 const DeleteModalContext = createContext();
 
 function DeleteModalProvider({children}) {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function toggleModalState() {
     setIsModalOpen((prevState) => !prevState);

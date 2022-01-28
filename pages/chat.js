@@ -79,6 +79,8 @@ export default function ChatPage() {
   }
 
   function handleDeleteMessage(id, messageSender) {
+    console.log(`${messageSender} : ${username}`)
+    
     if (messageSender !== username) {
       toggleModalState();
       return;
