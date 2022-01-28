@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import appConfig from '../config.json';
-import { ButtonSendSticker } from './components/ButtonSendSticker';
+import ButtonSendSticker from './components/ButtonSendSticker';
 import DeleteModal from './components/DeleteModal';
 import Header from './components/Header';
 import MessageList from './components/MessageList';
