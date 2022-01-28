@@ -1,8 +1,10 @@
-import { Box, Text, TextField, Image, Button } from '@skynexui/components';
+import { Box, TextField, Image, Button } from '@skynexui/components';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import appConfig from '../config.json';
-import Loading from './components/Loading';
+import Header from './components/Header';
+import MessageList from './components/MessageList';
 import { UserContext } from './contexts/UserContext';
 
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM2ODc4NiwiZXhwIjoxOTU4OTQ0Nzg2fQ.5KZfLkH07Fzw5RZH8vVteR_QxGNZgQUh2zRrj-C_dHw';
@@ -15,9 +17,13 @@ export default function ChatPage() {
   const [messageList, setMessageList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   const { username } = useContext(UserContext);
 
   useEffect(() => {
+    if(!username) router.push('/');
+
     (async () => {
       try {
         const data = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
@@ -167,138 +173,6 @@ export default function ChatPage() {
           </Box>
         </Box>
       </Box>
-    </Box>
-  )
-}
-
-function Header() {
-  return (
-    <>
-      <Box styleSheet={{
-        width: '100%',
-        marginBottom: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-        <Text variant='heading5'>
-          Chat
-        </Text>
-        <Button
-          label='Logout'
-          href="/"
-          styleSheet={{
-            backgroundColor: '#fff',
-            color: appConfig.theme.colors.primary[100],
-            hover: {
-              backgroundColor: appConfig.theme.colors.primary[100],
-              color: '#fff',
-            }
-          }}
-          buttonColors={{
-            contrastColor: '#fff',
-            mainColor: appConfig.theme.colors.primary[100],
-          }}
-        />
-      </Box>
-    </>
-  )
-}
-
-function MessageList({ messages, deleteMessage, loading }) {
-
-  return (
-    <Box
-      tag="ul"
-      styleSheet={{
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column-reverse',
-        flex: 1,
-        color: appConfig.theme.colors.neutrals["000"],
-        marginBottom: '16px',
-      }}
-    >
-      {
-        loading && <Box
-          styleSheet={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        ><Loading /></Box>
-      }
-      {
-        messages.map((message) => (
-          <Text
-            key={message.id}
-            tag="li"
-            styleSheet={{
-              borderRadius: '5px',
-              padding: '6px',
-              marginBottom: '12px',
-              backgroundColor: `${appConfig.theme.colors.neutrals[700]}bb`,
-              hover: {
-                backgroundColor: appConfig.theme.colors.neutrals[700],
-              }
-            }}
-          >
-            <Box
-              styleSheet={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '8px',
-              }}
-            >
-              <Box>
-                <Image
-                  styleSheet={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    display: 'inline-block',
-                    marginRight: '8px',
-                  }}
-                  src={`https://github.com/${message.from}.png`}
-                />
-                <Text tag="strong">
-                  {message.from}
-                </Text>
-                <Text
-                  styleSheet={{
-                    fontSize: '10px',
-                    marginLeft: '8px',
-                    color: appConfig.theme.colors.neutrals[300],
-                  }}
-                  tag="span"
-                >
-                  {(new Date().toLocaleDateString())}
-                </Text>
-              </Box>
-              <Box>
-                <Button
-                  label="X"
-                  onClick={() => deleteMessage(message.id)}
-                  styleSheet={{
-                    background: 'none',
-                    padding: '5px',
-                    color: appConfig.theme.colors.primary[100],
-                    hover: {
-                      color: '#fff',
-                    }
-                  }}
-                  buttonColors={{
-                    contrastColor: appConfig.theme.colors.neutrals["000"],
-                  }}
-                />
-              </Box>
-            </Box>
-            {message.text}
-          </Text>
-        ))
-      }
     </Box>
   )
 }
