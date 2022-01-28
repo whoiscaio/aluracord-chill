@@ -1,10 +1,28 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
-import React, { useState, useRef } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import React, { useState, useRef, useEffect } from 'react';
 import appConfig from '../config.json';
+
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM2ODc4NiwiZXhwIjoxOTU4OTQ0Nzg2fQ.5KZfLkH07Fzw5RZH8vVteR_QxGNZgQUh2zRrj-C_dHw';
+const SUPABASE_URL = 'https://hlpiqeaibzbrdhmaysdq.supabase.co'; // API Endpoint
+
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export default function ChatPage() {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await supabaseClient.from('messages').select('*').order('id', { ascending: false });
+
+        setMessageList(data.data);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, []);
 
   const inputRef = useRef();
 
@@ -15,14 +33,19 @@ export default function ChatPage() {
   function handleCreateMessage(message) {
     if (message.trim() === '') return;
 
-    setMessageList((prevState) => [
-      {
-        de: 'whoiscaio',
+    const newMessage = {
+      from: 'whoiscaio',
         text: message,
-        id: Math.random(),
-      },
-      ...prevState,
-    ]);
+    }
+
+    supabaseClient.from('messages').insert([
+      newMessage
+    ]).then(({ data }) => {
+      setMessageList((prevState) => [
+        data[0],
+        ...prevState,
+      ])
+    });
 
     setMessage('');
     inputRef.current?.focus();
@@ -226,7 +249,7 @@ function MessageList({ messages, deleteMessage }) {
                   src={`https://github.com/whoiscaio.png`}
                 />
                 <Text tag="strong">
-                  {message.de}
+                  {message.from}
                 </Text>
                 <Text
                   styleSheet={{
