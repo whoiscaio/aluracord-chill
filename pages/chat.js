@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import appConfig from '../config.json';
+import { ButtonSendSticker } from './components/ButtonSendSticker';
 import Header from './components/Header';
 import MessageList from './components/MessageList';
 import { UserContext } from './contexts/UserContext';
@@ -150,8 +151,10 @@ export default function ChatPage() {
               styleSheet={{
                 height: 'calc(100% - 8px)',
                 marginBottom: '8px',
+                display: 'flex',
               }}
             >
+              <ButtonSendSticker />
               <Button
                 type="submit"
                 onClick={handleFormSubmit}
