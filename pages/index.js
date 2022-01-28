@@ -7,12 +7,13 @@ import { UserContext } from './contexts/UserContext';
 import Title from './Title';
 
 function HomePage() {
-  const [username, setUser] = useState('whoiscaio');
+  const { username, defineUsername } = useContext(UserContext);
+
+  const [usernameValue, setUser] = useState(username || 'whoiscaio');
 
   const router = useRouter();
-  const { defineUsername } = useContext(UserContext);
 
-  let isUsernameGreaterThanTwo = username.length > 2;
+  let isUsernameGreaterThanTwo = usernameValue.length > 2;
 
   function handleInputChange(e) {
     setUser(e.target.value);
@@ -21,7 +22,7 @@ function HomePage() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-    defineUsername(username);
+    defineUsername(usernameValue);
     router.push('/chat');
   }
 
@@ -64,7 +65,7 @@ function HomePage() {
             </Text>
 
             <TextField
-              value={username}
+              value={usernameValue}
               onChange={handleInputChange}
               fullWidth
               textFieldColors={{
@@ -113,7 +114,7 @@ function HomePage() {
                     borderRadius: '50%',
                     marginBottom: '16px',
                   }}
-                  src={`https://github.com/${username}.png`}
+                  src={`https://github.com/${usernameValue}.png`}
                 />
               )
             }
@@ -126,7 +127,7 @@ function HomePage() {
                 borderRadius: '1000px'
               }}
             >
-              {username}
+              {usernameValue}
             </Text>
           </Box>
           {/* Photo Area */}
