@@ -1,11 +1,15 @@
+import DeleteModalProvider from './contexts/DeleteModalContext';
 import UserProvider from './contexts/UserContext';
 import GlobalStyle from './styles/GlobalStyle';
 
 function MyApp({ Component, pageProps }) {
+
   return (
     <UserProvider>
-      <GlobalStyle />
-      <Component {...pageProps} />
+      <DeleteModalProvider>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </DeleteModalProvider>
     </UserProvider>
   )
 }
