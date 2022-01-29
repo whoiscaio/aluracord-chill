@@ -106,14 +106,12 @@ export default function ChatPage() {
   }
 
   function handleDeleteMessage(id, messageSender) {
-    console.log('try to delete');
     if (messageSender !== username) {
       toggleModalState();
       return;
     }
 
     supabaseClient.from('messages').delete().match({ id }).then((data) => {});
-    console.log(messageList);
   }
 
   function handleFormSubmit(e) {
