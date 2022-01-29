@@ -25,13 +25,31 @@ export default function ChatPage() {
   const { username } = useContext(UserContext);
   const { isModalOpen, toggleModalState } = useContext(DeleteModalContext);
 
-  function listenSupabase(addNewMessage) {
+  function listenSupabase(addNewMessage, removeMessage) {
     supabaseClient
       .from('messages')
-      .on('INSERT', (data) => {
-        addNewMessage(data.new);
+      .on('*', (data) => {
+        switch(data.eventType) {
+          case 'INSERT':
+            addNewMessage(data.new);
+          case 'DELETE':
+            removeMessage(data.old.id);
+          default: 
+            return null;
+        }
       })
       .subscribe();
+  }
+
+  function handleMessageUIInsertion(newMessage) {
+    setMessageList((prevState) => [
+      newMessage,
+      ...prevState,
+    ])
+  }
+
+  function handleMessageUIRemoval(messageId) {
+    setMessageList((prevState) => prevState.filter((message) => message.id !== messageId));
   }
 
   useEffect(() => {
@@ -45,18 +63,15 @@ export default function ChatPage() {
 
         setMessageList(req.data);
         setLoading(false);
-        subscribe = listenSupabase((newMessage) => {
-          setMessageList((prevState) => [
-            newMessage,
-            ...prevState,
-          ])
-        });
+        subscribe = listenSupabase(handleMessageUIInsertion, handleMessageUIRemoval);
       } catch (err) {
         console.error(err);
       }
     })();
 
-    return () => subscribe?.unsubscribe();
+    return () => {
+      subscribe?.unsubscribe();
+    };
   }, []);
 
   const inputRef = useRef();
@@ -87,19 +102,18 @@ export default function ChatPage() {
 
     e.preventDefault();
 
-    console.log('enter');
-
     handleCreateMessage(message);
   }
 
   function handleDeleteMessage(id, messageSender) {
-    
+    console.log('try to delete');
     if (messageSender !== username) {
       toggleModalState();
       return;
     }
 
-    supabaseClient.from('messages').delete().match({ id });
+    supabaseClient.from('messages').delete().match({ id }).then((data) => {});
+    console.log(messageList);
   }
 
   function handleFormSubmit(e) {
